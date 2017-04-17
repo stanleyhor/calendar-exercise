@@ -60,3 +60,10 @@ export const getDisplayHour = (hour) => {
 export const getEventFromEvents = (events, eventId) => (
     events.find(({id}) => id === eventId)
 )
+
+export const isEventPast = (hour, now) => {
+    if (now.getHours() > hour) {
+        return true;
+    }
+    return false;
+}
