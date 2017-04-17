@@ -3,6 +3,7 @@ import Calendar from './Calendar';
 import EventDetailOverlay from './EventDetailOverlay';
 import {filterEventsByDay, getEventFromEvents, getDisplayDate} from '../utils';
 import DATA_SET from '../utils/data';
+import { MILLISECONDS_DAY } from '../utils/constants';
 
 import './Page.css';
 
@@ -46,11 +47,19 @@ export default class Page extends PureComponent {
     }
 
     _handlePrev() {
-        // TODO: Update this.state.day to go back 1 day so previous button works
+      let currentDate = new Date();
+      currentDate.setTime(this.state.day - MILLISECONDS_DAY);
+      this.setState({
+        day: currentDate.getTime()
+      });
     }
 
     _handleNext() {
-        // TODO: Update this.state.day to go forward 1 day so next button works
+      let currentDate = new Date();
+      currentDate.setTime(this.state.day + MILLISECONDS_DAY);
+      this.setState({
+        day: currentDate.getTime()
+      });
     }
 
     render() {
