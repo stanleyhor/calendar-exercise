@@ -3,7 +3,7 @@ import Calendar from './Calendar';
 import EventDetailOverlay from './EventDetailOverlay';
 import {filterEventsByDay, getEventFromEvents, getDisplayDate} from '../utils';
 import DATA_SET from '../utils/data';
-import { MILLISECONDS_DAY } from '../utils/constants';
+import { MILLISECONDS_DAY, ESC_KEY } from '../utils/constants';
 
 import './Page.css';
 
@@ -44,7 +44,7 @@ export default class Page extends PureComponent {
 
     _handleEventDetailOverlayClose(e) {
         if(e.target.className.indexOf('background')>-1 || e.target.className.indexOf('close')>-1) {
-          this.setState({selectedEventId: undefined});
+            this.setState({selectedEventId: undefined});
         }
     }
 
@@ -52,7 +52,7 @@ export default class Page extends PureComponent {
       let currentDate = new Date();
       currentDate.setTime(this.state.day - MILLISECONDS_DAY);
       this.setState({
-        day: currentDate.getTime()
+          day: currentDate.getTime()
       });
     }
 
@@ -60,8 +60,14 @@ export default class Page extends PureComponent {
       let currentDate = new Date();
       currentDate.setTime(this.state.day + MILLISECONDS_DAY);
       this.setState({
-        day: currentDate.getTime()
+          day: currentDate.getTime()
       });
+    }
+
+    _handleKeyPress(event) {
+        if(event.keyCode === ESC_KEY) {
+            this.setState({selectedEventId: undefined});
+        }
     }
 
     render() {
@@ -75,6 +81,7 @@ export default class Page extends PureComponent {
                 <EventDetailOverlay
                     event={selectedEvent}
                     onClose={this._handleEventDetailOverlayClose.bind(this)}
+                    onKeyPress={this._handleKeyPress.bind(this)}
                 />
             );
         }

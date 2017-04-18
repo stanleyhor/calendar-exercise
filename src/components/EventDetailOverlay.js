@@ -10,6 +10,10 @@ export default class EventDetailOverlay extends PureComponent {
         onClose: PropTypes.func.isRequired
     }
 
+    componentWillMount() {
+        document.addEventListener("keydown", this.props.onKeyPress.bind(this));
+    }
+
     render() {
         let {event, onClose} = this.props;
         let {title, description, start, color, hours} = event;
@@ -25,8 +29,7 @@ export default class EventDetailOverlay extends PureComponent {
         let displayDateTime = `${displayDate} ${startHourDisplay} - ${endHourDisplay}`;
 
         // TODO: Add appropriate ARIA tags to overlay/dialog
-        // TODO: Support clicking ESC to close it
-
+        
         return (
             <div className="event-detail-overlay-background" onClick={onClose}>
                 <section className="event-detail-overlay">
