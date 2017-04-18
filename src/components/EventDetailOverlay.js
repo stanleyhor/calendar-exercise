@@ -28,7 +28,7 @@ export default class EventDetailOverlay extends PureComponent {
         // TODO: Support clicking ESC to close it
 
         return (
-            <div className="event-detail-overlay-background" onClick={this.props.onClose.bind(this)}>
+            <div className="event-detail-overlay-background" onClick={onClose}>
                 <section className="event-detail-overlay">
                     <div className="event-detail-overlay__container">
                         <button
