@@ -65,10 +65,27 @@
     width: 1rem;
     vertical-align: sub;
     margin-left: 0.5rem;
-
-    /*
-     * TODO: Figure out how label color can match the event color instead of
-     * always being black
-     */
-    background-color: #000;
+}
+.event-detail-overlay--sky {
+    background-color: #d1e8f0;
+    border-color: #307992;
+}
+.event-detail-overlay--canary {
+    background-color: #fcf69a;
+    border-color: #938a04;
+}
+.event-detail-overlay--rose {
+    background-color: #fcbbd2;
+    border-color: #b00843;
+}
+.event-detail-overlay--shamrock {
+    background-color: #009e60;
+    border-color: #003800;
+}
+.event-detail-overlay-background {
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
