@@ -65,6 +65,7 @@
     width: 1rem;
     vertical-align: sub;
     margin-left: 0.5rem;
+    border: 1px solid;
 }
 .event-detail-overlay--sky {
     background-color: #d1e8f0;

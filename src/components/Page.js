@@ -42,8 +42,10 @@ export default class Page extends PureComponent {
         this.setState({selectedEventId});
     }
 
-    _handleEventDetailOverlayClose() {
-        this.setState({selectedEventId: undefined});
+    _handleEventDetailOverlayClose(e) {
+        if(e.target.className.indexOf('background')>-1 || e.target.className.indexOf('close')>-1) {
+          this.setState({selectedEventId: undefined});
+        }
     }
 
     _handlePrev() {
