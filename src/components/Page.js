@@ -1,4 +1,6 @@
 import React, {PureComponent} from 'react';
+import { Link } from 'react-router';
+
 import Calendar from './Calendar';
 import EventDetailOverlay from './EventDetailOverlay';
 import {filterEventsByDay, getEventFromEvents, getDisplayDate} from '../utils';
@@ -7,20 +9,22 @@ import { MILLISECONDS_DAY, ESC_KEY } from '../utils/constants';
 
 import './Page.css';
 
-const DayNavigator = ({dateDisplay, onPrev, onNext}) => {
+const DayNavigator = ({day}) => {
     return (
         <nav className="page__nav">
-            <button
-                className="page__nav-button page__prev-day"
-                title="Go to previous day"
-                onClick={onPrev}
-            />
-            <h2 className="page__date">{dateDisplay}</h2>
-            <button
-                className="page__nav-button page__next-day"
-                title="Go to next day"
-                onClick={onNext}
-            />
+            <Link to={'/event/'+(day-MILLISECONDS_DAY)}>
+                <button
+                    className="page__nav-button page__prev-day"
+                    title="Go to previous day"
+                />
+            </Link>
+            <h2 className="page__date">{getDisplayDate(day)}</h2>
+            <Link to={'/event/'+(day+MILLISECONDS_DAY)}>
+                <button
+                    className="page__nav-button page__next-day"
+                    title="Go to next day"
+                />
+            </Link>
         </nav>
     );
 };
@@ -40,18 +44,6 @@ export default class Page extends PureComponent {
         if(e.target.className.indexOf('background')>-1 || e.target.className.indexOf('close')>-1) {
             this.props.updateTheEventData('theEvent', {selectedEventId:undefined});
         }
-    }
-
-    _handlePrev() {
-        let currentDate = new Date();
-        currentDate.setTime(this.props.day - MILLISECONDS_DAY);
-        this.props.updateDayData('day', currentDate.getTime());
-    }
-
-    _handleNext() {
-        let currentDate = new Date();
-        currentDate.setTime(this.props.day + MILLISECONDS_DAY);
-        this.props.updateDayData('day', currentDate.getTime());
     }
 
     _handleKeyPress(event) {
@@ -82,11 +74,7 @@ export default class Page extends PureComponent {
                 <header className="page__header">
                     <h1 className="page__title">Daily Agenda</h1>
                 </header>
-                <DayNavigator
-                    dateDisplay={getDisplayDate(day)}
-                    onPrev={this._handlePrev.bind(this)}
-                    onNext={this._handleNext.bind(this)}
-                />
+                <DayNavigator day={day} />
                 <Calendar events={filteredEvents} onSelectEvent={this._handleSelectEvent.bind(this)} />
                 {eventDetailOverlay}
             </div>

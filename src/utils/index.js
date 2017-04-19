@@ -40,7 +40,7 @@ export const filterEventsByHour = (events, hour) => (
  * @returns {string} The formatted date
  */
 export const getDisplayDate = (timestamp) => {
-    let date = new Date(timestamp);
+    let date = new Date(+timestamp);
     return date.toLocaleString('en-US', dateOptions);
 };
 
