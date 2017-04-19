@@ -28,13 +28,12 @@ export default class EventDetailOverlay extends PureComponent {
 
         let displayDateTime = `${displayDate} ${startHourDisplay} - ${endHourDisplay}`;
 
-        // TODO: Add appropriate ARIA tags to overlay/dialog
-        
         return (
-            <div className="event-detail-overlay-background" onClick={onClose}>
+            <div className="event-detail-overlay-background" aria-label="Event Details" onClick={onClose}>
                 <section className="event-detail-overlay">
                     <div className="event-detail-overlay__container">
                         <button
+                          aria-label="Close"
                             className="event-detail-overlay__close"
                             title="Close detail view"
                             onClick={onClose}
