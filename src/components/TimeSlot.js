@@ -14,11 +14,10 @@ export default class TimeSlot extends PureComponent {
 
     _renderEvents() {
         let {events, onSelectEvent} = this.props;
-        let {hour} = this.props;
 
         return events.map((event) => (
             <div key={event.id} className="time-slot__event">
-                <TimeSlotEvent hour={hour} event={event} onSelect={onSelectEvent.bind(null, event.id)} />
+                <TimeSlotEvent event={event} onSelect={onSelectEvent.bind(null, event.id)} />
             </div>
         ));
     }

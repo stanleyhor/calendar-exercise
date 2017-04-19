@@ -63,8 +63,18 @@ export const getEventFromEvents = (events, eventId) => (
     events.find(({id}) => id === eventId)
 )
 
-export const isEventPast = (hour, now) => {
-    if (now.getHours() > hour) {
+/**
+ * Compare the event date and the current date, returns true if the event has past
+ * @param {object} event - the date of the event
+ * @param {Date} now - current date
+ * @returns {boolean}
+ */
+export const isEventPast = (event) => {
+    const now = new Date();
+    if (event.dayDelta < 0) {
+        return true;
+    }
+    if (event.dayDelta === 0 && now.getHours() > (new Date(event.start)).getHours()) {
         return true;
     }
     return false;

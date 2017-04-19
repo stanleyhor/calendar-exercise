@@ -11,8 +11,8 @@ export default class TimeSlotEvent extends PureComponent {
     }
     
     getEventState() {
-        const { hour } = this.props;
-        const isEventOver = isEventPast(hour, new Date());
+        const { event } = this.props;
+        const isEventOver = isEventPast(event);
         if (isEventOver) {
             return 'time-slot-event--past';
         }
