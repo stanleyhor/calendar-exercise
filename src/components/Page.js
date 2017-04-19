@@ -26,52 +26,43 @@ const DayNavigator = ({dateDisplay, onPrev, onNext}) => {
 };
 
 export default class Page extends PureComponent {
-    state = {
-        // unfiltered list of events
-        events: DATA_SET,
-
-        // The currently selected day represented by numerical timestamp
-        day: Date.now(),
-
-        // The currently selected event in the agenda
-        // (mainly to trigger event detail overlay)
-        selectedEventId: undefined
+    componentWillMount() {
+        this.props.initEventsData('events', DATA_SET);
+        this.props.initDayData('day', Date.now());
+        this.props.initTheEventData('theEvent', {selectedEventId: undefined});
     }
 
     _handleSelectEvent(selectedEventId) {
-        this.setState({selectedEventId});
+        this.props.updateTheEventData('theEvent', {selectedEventId});
     }
 
     _handleEventDetailOverlayClose(e) {
         if(e.target.className.indexOf('background')>-1 || e.target.className.indexOf('close')>-1) {
-            this.setState({selectedEventId: undefined});
+            this.props.updateTheEventData('theEvent', {selectedEventId:undefined});
         }
     }
 
     _handlePrev() {
-      let currentDate = new Date();
-      currentDate.setTime(this.state.day - MILLISECONDS_DAY);
-      this.setState({
-          day: currentDate.getTime()
-      });
+        let currentDate = new Date();
+        currentDate.setTime(this.props.day - MILLISECONDS_DAY);
+        this.props.updateDayData('day', currentDate.getTime());
     }
 
     _handleNext() {
-      let currentDate = new Date();
-      currentDate.setTime(this.state.day + MILLISECONDS_DAY);
-      this.setState({
-          day: currentDate.getTime()
-      });
+        let currentDate = new Date();
+        currentDate.setTime(this.props.day + MILLISECONDS_DAY);
+        this.props.updateDayData('day', currentDate.getTime());
     }
 
     _handleKeyPress(event) {
         if(event.keyCode === ESC_KEY) {
-            this.setState({selectedEventId: undefined});
+            this.props.updateTheEventData('theEvent', {selectedEventId:undefined});
         }
     }
 
     render() {
-        let {events, day, selectedEventId} = this.state;
+        let {events, day, theEvent:{selectedEventId}} = this.props;
+      
         let filteredEvents = filterEventsByDay(events, day);
         let selectedEvent = getEventFromEvents(events, selectedEventId);
         let eventDetailOverlay;
