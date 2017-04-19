@@ -13,9 +13,11 @@ const dateOptions = {
  * @returns {array}
  */
 export const filterEventsByDay = (events, timestamp) => {
-    // TODO: Implement day filtering!
-
-    return events;
+    let delta = Math.floor((new Date(timestamp)).getDate() - (new Date()).getDate());
+    let allE =  events.filter((event) => {
+        return event.dayDelta === delta;
+    });
+    return allE;
 }
 
 /**
