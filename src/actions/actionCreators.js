@@ -7,6 +7,13 @@ export function initEventsData(dataType, data) {
   }
 }
 
+export function addEventsData(data) {
+  return {
+    type: 'ADD_EVENTS',
+    data
+  }
+}
+
 export function initDayData(dataType, data) {
   return {
     type: 'INIT_DAY_DATA',

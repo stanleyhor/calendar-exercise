@@ -6,6 +6,17 @@ const dateOptions = {
 };
 
 /**
+ * Get the delta in Days between the two inputs
+ * @param timestamp1
+ * @param timestamp2
+ * @returns {number}
+ */
+export const getDeltaDay = (timestamp1, timestamp2) => {
+    return Math.floor((new Date(timestamp1)).getDate() - (new Date(timestamp2)).getDate());
+};
+
+
+/**
  * Given a list of events and a date, filter the events down to those that
  * fall on the same day as the date
  * @param {array} events - List of event objects
@@ -13,7 +24,7 @@ const dateOptions = {
  * @returns {array}
  */
 export const filterEventsByDay = (events, timestamp) => {
-    let delta = Math.floor((new Date(timestamp)).getDate() - (new Date()).getDate());
+    let delta = getDeltaDay(timestamp, Date.now());  //Math.floor((new Date(timestamp)).getDate() - (new Date()).getDate());
     let allE =  events.filter((event) => {
         return event.dayDelta === delta;
     });
@@ -62,7 +73,8 @@ export const getDisplayHour = (hour) => {
  * @returns {object}
  */
 export const getEventFromEvents = (events, eventId) => (
-    events.find(({id}) => id === eventId)
+    // eventId ===999999 indicates adding new event
+    events.find(({id}) => (id === eventId || eventId===999999))
 )
 
 /**

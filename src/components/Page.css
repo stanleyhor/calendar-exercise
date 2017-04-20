@@ -7,6 +7,7 @@
 }
 .page__header {
     margin-bottom: 1rem;
+    position: relative;
 }
 
 .page__nav {
@@ -43,4 +44,20 @@
 }
 .page__next-day::after {
     content: '▶︎';
+}
+.page__title {
+    display: inline-block;
+}
+.page__add-btn {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 5px;
+    border: 1px solid #000000;
+    cursor: pointer;
+    padding: 0.5rem;
+    font-size: 1rem;
+    background-color: #009e60;
+    color: #ffffff;
 }

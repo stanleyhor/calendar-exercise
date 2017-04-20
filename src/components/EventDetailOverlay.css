@@ -17,6 +17,9 @@
         top: auto;
         padding-bottom: 0;
     }
+    .event-detail-overlay-new {
+        height: 24rem;
+    }
 }
 .event-detail-overlay__container {
     position: relative;
@@ -89,4 +92,16 @@
     position: fixed;
     top: 0;
     left: 0;
+}
+.event-detail-overlay-form-inline {
+    display: inline-block;
+}
+.event-detail-overlay-add-btn {
+    border-radius: 5px;
+    border: 1px solid #000000;
+    cursor: pointer;
+    padding: 0.5rem;
+    font-size: 1rem;
+    background-color: #009e60;
+    color: #ffffff;
 }

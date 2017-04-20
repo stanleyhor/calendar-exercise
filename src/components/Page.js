@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 
 import Calendar from './Calendar';
 import EventDetailOverlay from './EventDetailOverlay';
+import EventDetailOverlayNew from './EventDetailOverlayNew';
 import {filterEventsByDay, getEventFromEvents, getDisplayDate} from '../utils';
 import DATA_SET from '../utils/data';
 import { MILLISECONDS_DAY, ESC_KEY } from '../utils/constants';
@@ -60,19 +61,31 @@ export default class Page extends PureComponent {
         let eventDetailOverlay;
 
         if (selectedEvent) {
-            eventDetailOverlay = (
-                <EventDetailOverlay
-                    event={selectedEvent}
-                    onClose={this._handleEventDetailOverlayClose.bind(this)}
-                    onKeyPress={this._handleKeyPress.bind(this)}
-                />
-            );
+            if (selectedEventId===999999) {
+                // adding a new event, used a high number to indicate adding new event
+                eventDetailOverlay = (
+                    <EventDetailOverlayNew
+                        {...this.props}
+                        onClose={this._handleEventDetailOverlayClose.bind(this)}
+                        onKeyPress={this._handleKeyPress.bind(this)}
+                    />
+                );
+            } else {
+                eventDetailOverlay = (
+                    <EventDetailOverlay
+                        event={selectedEvent}
+                        onClose={this._handleEventDetailOverlayClose.bind(this)}
+                        onKeyPress={this._handleKeyPress.bind(this)}
+                    />
+                );
+            }
         }
 
         return (
             <div className="page">
                 <header className="page__header">
                     <h1 className="page__title">Daily Agenda</h1>
+                    <button className="page__add-btn" onClick={this._handleSelectEvent.bind(this, 999999)}>Add</button>
                 </header>
                 <DayNavigator day={day} />
                 <Calendar events={filteredEvents} onSelectEvent={this._handleSelectEvent.bind(this)} />
