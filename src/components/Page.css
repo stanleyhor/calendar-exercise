@@ -1,13 +1,13 @@
 /*
- * TODO: page needs a gradient from white (top) to light gray (bottom)
  * TODO: On narrow screens the background shouldn't scroll when detail overlay is shown
  */
-
 .page {
     margin: 1rem;
+    background: linear-gradient(#ffffff, #d3d3d3);
 }
 .page__header {
     margin-bottom: 1rem;
+    position: relative;
 }
 
 .page__nav {
@@ -44,4 +44,20 @@
 }
 .page__next-day::after {
     content: '▶︎';
+}
+.page__title {
+    display: inline-block;
+}
+.page__add-btn {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 5px;
+    border: 1px solid #000000;
+    cursor: pointer;
+    padding: 0.5rem;
+    font-size: 1rem;
+    background-color: #009e60;
+    color: #ffffff;
 }

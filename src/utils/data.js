@@ -419,6 +419,7 @@ const _genData = () => (
             hours,
             color,
             start: startDateTime,
+            dayDelta: dayDelta
         };
     })
 );

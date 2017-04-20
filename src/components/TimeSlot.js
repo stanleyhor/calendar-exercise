@@ -9,7 +9,7 @@ export default class TimeSlot extends PureComponent {
     static propTypes = {
         hour: PropTypes.number.isRequired,
         events: EVENTS_PROP_TYPE.isRequired,
-        onSelectEvent: PropTypes.func.isRequired,
+        onSelectEvent: PropTypes.func.isRequired
     }
 
     _renderEvents() {

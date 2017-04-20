@@ -1,83 +1,93 @@
 import React, {PureComponent} from 'react';
+import { Link } from 'react-router';
+
 import Calendar from './Calendar';
 import EventDetailOverlay from './EventDetailOverlay';
+import EventDetailOverlayNew from './EventDetailOverlayNew';
 import {filterEventsByDay, getEventFromEvents, getDisplayDate} from '../utils';
 import DATA_SET from '../utils/data';
+import { MILLISECONDS_DAY, ESC_KEY } from '../utils/constants';
 
 import './Page.css';
 
-const DayNavigator = ({dateDisplay, onPrev, onNext}) => {
+const DayNavigator = ({day}) => {
     return (
         <nav className="page__nav">
-            <button
-                className="page__nav-button page__prev-day"
-                title="Go to previous day"
-                onClick={onPrev}
-            />
-            <h2 className="page__date">{dateDisplay}</h2>
-            <button
-                className="page__nav-button page__next-day"
-                title="Go to next day"
-                onClick={onNext}
-            />
+            <Link to={'/event/'+(day-MILLISECONDS_DAY)}>
+                <button
+                    className="page__nav-button page__prev-day"
+                    title="Go to previous day"
+                />
+            </Link>
+            <h2 className="page__date">{getDisplayDate(day)}</h2>
+            <Link to={'/event/'+(day+MILLISECONDS_DAY)}>
+                <button
+                    className="page__nav-button page__next-day"
+                    title="Go to next day"
+                />
+            </Link>
         </nav>
     );
 };
 
 export default class Page extends PureComponent {
-    state = {
-        // unfiltered list of events
-        events: DATA_SET,
-
-        // The currently selected day represented by numerical timestamp
-        day: Date.now(),
-
-        // The currently selected event in the agenda
-        // (mainly to trigger event detail overlay)
-        selectedEventId: undefined
+    componentWillMount() {
+        this.props.initEventsData('events', DATA_SET);
+        this.props.initDayData('day', Date.now());
+        this.props.initTheEventData('theEvent', {selectedEventId: undefined});
     }
 
     _handleSelectEvent(selectedEventId) {
-        this.setState({selectedEventId});
+        this.props.updateTheEventData('theEvent', {selectedEventId});
     }
 
-    _handleEventDetailOverlayClose() {
-        this.setState({selectedEventId: undefined});
+    _handleEventDetailOverlayClose(e) {
+        if(e.target.className.indexOf('background')>-1 || e.target.className.indexOf('close')>-1) {
+            this.props.updateTheEventData('theEvent', {selectedEventId:undefined});
+        }
     }
 
-    _handlePrev() {
-        // TODO: Update this.state.day to go back 1 day so previous button works
-    }
-
-    _handleNext() {
-        // TODO: Update this.state.day to go forward 1 day so next button works
+    _handleKeyPress(event) {
+        if(event.keyCode === ESC_KEY) {
+            this.props.updateTheEventData('theEvent', {selectedEventId:undefined});
+        }
     }
 
     render() {
-        let {events, day, selectedEventId} = this.state;
+        let {events, day, theEvent:{selectedEventId}} = this.props;
+      
         let filteredEvents = filterEventsByDay(events, day);
         let selectedEvent = getEventFromEvents(events, selectedEventId);
         let eventDetailOverlay;
 
         if (selectedEvent) {
-            eventDetailOverlay = (
-                <EventDetailOverlay
-                    event={selectedEvent}
-                    onClose={this._handleEventDetailOverlayClose.bind(this)}
-                />
-            );
+            if (selectedEventId===999999) {
+                // adding a new event, used a high number to indicate adding new event
+                eventDetailOverlay = (
+                    <EventDetailOverlayNew
+                        {...this.props}
+                        onClose={this._handleEventDetailOverlayClose.bind(this)}
+                        onKeyPress={this._handleKeyPress.bind(this)}
+                    />
+                );
+            } else {
+                eventDetailOverlay = (
+                    <EventDetailOverlay
+                        event={selectedEvent}
+                        onClose={this._handleEventDetailOverlayClose.bind(this)}
+                        onKeyPress={this._handleKeyPress.bind(this)}
+                    />
+                );
+            }
         }
 
         return (
             <div className="page">
                 <header className="page__header">
                     <h1 className="page__title">Daily Agenda</h1>
+                    <button className="page__add-btn" onClick={this._handleSelectEvent.bind(this, 999999)}>Add</button>
                 </header>
-                <DayNavigator
-                    dateDisplay={getDisplayDate(day)}
-                    onPrev={this._handlePrev.bind(this)}
-                    onNext={this._handleNext.bind(this)}
-                />
+                <DayNavigator day={day} />
                 <Calendar events={filteredEvents} onSelectEvent={this._handleSelectEvent.bind(this)} />
                 {eventDetailOverlay}
             </div>
